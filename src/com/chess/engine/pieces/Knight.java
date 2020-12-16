@@ -24,13 +24,11 @@ public class Knight extends Piece
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
 
-        int candidateDestinationCoordinate;
         final List<Move> legalMoves = new ArrayList<>();
-
 
         for(final int currentCandidateOffset: CANDIDATE_MOVE_COORDINATES)
         {
-            candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
+            final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
             if( BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
                 if(isFirstColumnExclusion(this.piecePosition,currentCandidateOffset)
