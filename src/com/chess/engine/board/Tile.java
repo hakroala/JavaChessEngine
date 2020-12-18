@@ -3,6 +3,7 @@ import com.chess.engine.pieces.Piece;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class Tile
@@ -67,10 +68,11 @@ public abstract class Tile
             super(tileCoordinate);
             this.pieceOnTile = pieceOnTile;
         }
+
         @Override
         public String toString()
         {
-            return this.pieceOnTile.toString();
+            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase(): getPiece().toString();
         }
         @Override
         public  boolean isTileOccupied() { return true; }

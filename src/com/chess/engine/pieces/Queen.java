@@ -18,6 +18,11 @@ public class Queen extends Piece {
     public Queen(final Alliance pieceAlliance, final int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
+    @Override
+    public String toString()
+    {
+        return PieceType.QUEEN.toString();
+    }
 
     @Override
     public Collection<Move> calculateLegalMoves(final Board board)

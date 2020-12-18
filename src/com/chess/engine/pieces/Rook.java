@@ -20,7 +20,11 @@ public class Rook extends Piece
     {
         super(piecePosition, pieceAlliance);
     }
-
+    @Override
+    public String toString()
+    {
+        return PieceType.ROOK.toString();
+    }
     @Override
     public Collection<Move> calculateLegalMoves(final Board board)
     {
