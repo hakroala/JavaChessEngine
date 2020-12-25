@@ -2,7 +2,7 @@ package com.chess.engine;
 
 public enum Alliance
 {
-    WHITE{
+    WHITE() {
         @Override
         public int getDirection(){return -1;}
 
@@ -16,7 +16,7 @@ public enum Alliance
             return false;
         }
     },
-    BLACK{
+    BLACK() {
         @Override
         public int getDirection(){return 1;}
 

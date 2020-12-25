@@ -1,11 +1,9 @@
 package com.chess.engine.board;
+
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.*;
 import com.google.common.collect.ImmutableList;
 
-
-import java.util.List;
-import java.util.Map;
 import java.util.*;
 
 public class Board

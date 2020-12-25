@@ -25,10 +25,10 @@ public class Pawn extends Piece
     @Override
     public Collection<Move> calculateLegalMoves(Board board)
     {
-        final List<Move> legalMoves = new ArrayList<>();
+        final List<Move> legalMoves = new ArrayList<Move>();
         for(final int currentCandidateOffset: CANDIDATE_MOVE_COORDINATES )
         {
-            final int candidateDestinationCoordinate = this.piecePosition * (this.pieceAlliance.getDirection() * currentCandidateOffset);
+            final int candidateDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * currentCandidateOffset);
             if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
                 continue;
