@@ -25,6 +25,10 @@ public abstract class Move
         }
     }
 
+    public int getDestinationCoordinate()
+    {
+     return this.destinationCoordinate;
+    }
     public static final class AttackMove extends Move
     {
         final Piece attackPiece;
