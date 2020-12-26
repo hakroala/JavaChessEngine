@@ -28,6 +28,14 @@ public abstract class Player {
 
     }
 
+    public King getPlayerKing()
+    {
+        return this.playerKing;
+    }
+    public Collection<Move> getLegalMoves()
+    {
+        return this.legalMoves;
+    }
     private King establishKing()
     {
         for(final Piece piece : getActionPieces())
@@ -91,7 +99,19 @@ public abstract class Player {
 
     public MoveTransition makeMoves(final Move move)
     {
-        return null;
+        if (!isMoveLegal(move))
+        {
+            return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
+        }
+        final Board transitionBoard = move.execute();
+
+        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile(transitionBoard.currentPlayer().getOpponent().getPlayerKing().getPiecePosition(),transitionBoard.currentPlayer().getLegalMoves());
+
+        if(!kingAttacks.isEmpty())
+        {
+            return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+        }
+        return new MoveTransition(transitionBoard,move,MoveStatus.DONE);
     }
     public abstract Collection<Piece> getActionPieces();
     public abstract Alliance getAlliance();
