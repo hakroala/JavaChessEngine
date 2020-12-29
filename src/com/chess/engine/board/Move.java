@@ -1,6 +1,10 @@
 package com.chess.engine.board;
 
 import com.chess.engine.pieces.Piece;
+import com.chess.engine.board.Board.Builder;
+
+
+import java.awt.image.BufferedImage;
 
 public abstract class Move
 {
@@ -30,8 +34,27 @@ public abstract class Move
         }
 
         @Override
-        public Board execute() {
-            return null;
+        public Board execute()
+        {
+            final Builder builder = new Builder();
+
+            for (final Piece piece: this.board.currentPlayer().getActivePieces())
+            {
+                if(!this.movedPiece.equals(piece))
+                {
+                    builder.setPiece(piece);
+                }
+            }
+
+            for (final Piece piece : this.board.currentPlayer().getActivePieces())
+            {
+                builder.setPiece(piece);
+            }
+
+            builder.setPiece(this.movedPiece.movedPiece(this));
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
+
         }
     }
 
@@ -39,6 +62,12 @@ public abstract class Move
     {
      return this.destinationCoordinate;
     }
+
+    public Piece getMovedPiece()
+    {
+        return this.movedPiece;
+    }
+
     public static final class AttackMove extends Move
     {
         final Piece attackPiece;
