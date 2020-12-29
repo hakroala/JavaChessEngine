@@ -38,7 +38,7 @@ public abstract class Player {
     }
     private King establishKing()
     {
-        for(final Piece piece : getActionPieces())
+        for(final Piece piece : getActivePieces())
         {
             if(piece.getPieceType().isKing())
             {
