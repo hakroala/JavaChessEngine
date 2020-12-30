@@ -1,11 +1,17 @@
 package com.chess.gui;
 
+import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
+import com.chess.engine.pieces.Piece;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +23,10 @@ public class Table
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400,350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
+
+    private final Color lightTileColor = Color.decode("#FACDFF");
+    private final Color darkTileColor = Color.decode("#D663e6");
+
     public Table()
     {
         this.gameFrame = new JFrame("Jchess");
@@ -94,6 +104,25 @@ public class Table
             assignTileColor();
             validate();
         }
+
+        private void assignTilePieceIcon(final Board board) throws IOException {
+            this.removeAll();
+            if(board.getTile(this.tileId).isTileOccupied())
+            {
+                try{
+                String pieceIconPath = "";
+                final BufferedImage image = ImageIO.read(new File(pieceIconPath +
+                        board.getTile(this.tileId).getPiece().getPieceAlliance().toString().substring(0,1) +
+                        board.getTile((this.tileId).getPiece().toString() + ".gif")));
+                add(new JLabel(new ImageIcon(image)));}
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
         private void assignTileColor()
         {
             if(BoardUtils.FIRST_ROW[this.tileId] ||
@@ -110,7 +139,7 @@ public class Table
             {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }
-        }
+
         }
     }
 

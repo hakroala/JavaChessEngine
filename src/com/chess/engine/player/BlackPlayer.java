@@ -74,12 +74,15 @@ public class BlackPlayer extends Player
             final Tile rookTile = this.board.getTile(0);
             if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove())
             {
-                kingCastles.add(new Move.QueenSideCastleMove(this.board,
+                if (Player.calculateAttacksOnTile(58,opponentsLegals).isEmpty()
+                    && Player.calculateAttacksOnTile(59, opponentsLegals).isEmpty()
+                    && rookTile.getPiece().getPieceType().isRook())
+                { kingCastles.add(new Move.QueenSideCastleMove(this.board,
                                                             this.playerKing,
                                                             2,
                                                             (Rook)rookTile.getPiece(),
                                                             rookTile.getTileCoordinate(),
-                                                            3));
+                                                            3)); }
             }
         }
         return ImmutableList.copyOf(kingCastles);
