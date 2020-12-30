@@ -14,7 +14,8 @@ public abstract class Move
     final Piece movedPiece;
     final int destinationCoordinate;
 
-    public static final Move NULL_MOVE = new NullMove();
+    private static final Move NULL_MOVE = new NullMove();
+
 
     private Move(final Board board,
          final Piece movedPiece,
@@ -100,7 +101,7 @@ public abstract class Move
             builder.setPiece(piece);
         }
 
-        builder.setPiece(this.movedPiece.movedPiece(this));
+        builder.setPiece(this.movedPiece.movePiece(this));
         builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
         return builder.build();
 
@@ -247,7 +248,7 @@ public abstract class Move
                            final int castleRookStart,
                            final int castleRookDestination)
         {
-            super(board,movedPiece,destinationCoordinate,);
+            super(board,movedPiece,destinationCoordinate);
             this.castleRook = castleRook;
             this.castleRookStart = castleRookStart;
             this.castleRookDestination = castleRookDestination;
@@ -326,7 +327,7 @@ public abstract class Move
         }
     }
 
-    public static abstract class NullMove extends Move
+    public static class NullMove extends Move
     {
         public NullMove ()
         {

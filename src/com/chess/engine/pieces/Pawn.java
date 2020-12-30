@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Pawn extends Piece
+public final class Pawn extends Piece
 {
     private final static int [] CANDIDATE_MOVE_COORDINATES = {8,16};
 
@@ -18,9 +18,8 @@ public class Pawn extends Piece
         super(PieceType.PAWN,piecePosition, pieceAlliance);
     }
 
-
     @Override
-    public Pawn movedPiece(Move move) {
+    public Pawn movePiece(Move move) {
         return new Pawn(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
     }
     @Override
@@ -84,4 +83,5 @@ public class Pawn extends Piece
         }
         return legalMoves;
     }
+
 }
