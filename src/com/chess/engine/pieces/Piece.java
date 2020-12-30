@@ -89,7 +89,7 @@ public abstract class Piece
                     }
 
                     @Override
-                    public boolean isRook() { return true; }
+                    public boolean isRook() { return false; }
                 },
         KNIGHT("N")
                 {
@@ -122,7 +122,7 @@ public abstract class Piece
                     }
 
                     @Override
-                    public boolean isRook() { return true; }
+                    public boolean isRook() { return false; }
                 },
         ROOK("R")
                 {
