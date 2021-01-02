@@ -74,20 +74,22 @@ public class Table
 
     private JMenu createFileMenu()
     {
-        final JMenu fileMenu = new JMenu("File");
+        final JMenu filesMenu = new JMenu("File");
 
         final JMenuItem openPGN = new JMenu("Load PGN file");
 
         openPGN.addActionListener( (e) -> { System.out.println("Open up that PGN file"); });
 
-        fileMenu.add(openPGN);
+        filesMenu.add(openPGN);
+
         final JMenuItem exitMenuItem = new JMenu("Exit");
-        exitMenuItem.addActionListener( e -> {
+
+        exitMenuItem.addActionListener(e -> {
             System.exit(0);
         });
+        filesMenu.add(exitMenuItem);
 
-        fileMenu.add(exitMenuItem);
-        return fileMenu;
+        return filesMenu;
     }
 
     private JMenu createPreferencesMenu()
@@ -138,7 +140,7 @@ public class Table
         public void drawBoard(final Board board)
         {
             removeAll();
-            for (final TilePanel tilePanel: boardTiles)
+            for (final TilePanel tilePanel: boardDirection.traverse(boardTiles))
             {
                 tilePanel.drawTile(board);
                 add(tilePanel);
@@ -156,6 +158,12 @@ public class Table
             {
                 return boardTiles;
             }
+
+            @Override
+            BoardDirection opposite() {
+                return FLIPPED;
+            }
+
 
         } ,
 
@@ -180,7 +188,7 @@ public class Table
             return FLIPPED;
         }
     }
-    private class TilePanel extends JPanel
+    private class  TilePanel extends JPanel
     {
         private final int tileId;
 
