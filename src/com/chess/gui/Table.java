@@ -76,13 +76,13 @@ public class Table
     {
         final JMenu filesMenu = new JMenu("File");
 
-        final JMenuItem openPGN = new JMenu("Load PGN file");
+        final JMenuItem openPGN = new JMenuItem("Load PGN file");
 
         openPGN.addActionListener( (e) -> { System.out.println("Open up that PGN file"); });
 
         filesMenu.add(openPGN);
 
-        final JMenuItem exitMenuItem = new JMenu("Exit");
+        final JMenuItem exitMenuItem = new JMenuItem("Exit");
 
         exitMenuItem.addActionListener(e -> {
             System.exit(0);
@@ -287,6 +287,7 @@ public class Table
         {
             assignTileColor();
             assignTilePieceIcon(board);
+            highlightLegals(board);
             validate();
             repaint();
         }

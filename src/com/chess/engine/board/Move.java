@@ -96,7 +96,7 @@ public abstract class Move
             }
         }
 
-        for (final Piece piece : this.board.currentPlayer().getActivePieces())
+        for (final Piece piece : this.board.currentPlayer().getOpponent().getActivePieces())
         {
             builder.setPiece(piece);
         }

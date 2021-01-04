@@ -19,7 +19,7 @@ public class WhitePlayer extends Player {
                        final Collection<Move> blackStandardLegalMoves)
 
     {
-        super(board,blackStandardLegalMoves,whiteStandardLegalMoves);
+        super(board, whiteStandardLegalMoves, blackStandardLegalMoves);
     }
 
     @Override

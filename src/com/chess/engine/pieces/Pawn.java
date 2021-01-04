@@ -35,7 +35,7 @@ public final class Pawn extends Piece
         for(final int currentCandidateOffset: CANDIDATE_MOVE_COORDINATES )
         {
             final int candidateDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * currentCandidateOffset);
-            if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
+            if (!BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
                 continue;
             }
@@ -65,7 +65,7 @@ public final class Pawn extends Piece
                         }
                     }
                 }
-                else if (currentCandidateOffset == 8 &&
+                else if (currentCandidateOffset == 9 &&
                         !((BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.getPieceAlliance().isWhite()
                                 || (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack()))))
                 {
