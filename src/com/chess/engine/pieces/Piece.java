@@ -16,12 +16,13 @@ public abstract class Piece
 
     Piece(  final PieceType pieceType,
             final int piecePosition,
-            final Alliance pieceAlliance)
+            final Alliance pieceAlliance,
+            final boolean isFirstMove)
     {
         this.pieceType = pieceType;
         this.pieceAlliance = pieceAlliance;
         this.piecePosition = piecePosition;
-        this.isFirstMove = false;
+        this.isFirstMove = isFirstMove;
         this.cachedHashCode = computerHashCode();
     }
 
@@ -137,7 +138,7 @@ public abstract class Piece
                 };
 
 
-        private String pieceName;
+        private final String pieceName;
 
         PieceType(final String pieceName) {
             this.pieceName = pieceName;

@@ -14,9 +14,16 @@ import java.util.List;
 public class Bishop extends Piece
 {
     private final static int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9,-7,7,9};
-    public Bishop(final Alliance pieceAlliance, final int piecePosition) {
+    public Bishop(final Alliance pieceAlliance, final int piecePosition)
+    {
+        super(PieceType.BISHOP,piecePosition, pieceAlliance, true);
+    }
 
-        super(PieceType.BISHOP,piecePosition, pieceAlliance);
+    public Bishop(final Alliance pieceAlliance,
+                final int piecePosition,
+                final boolean isFirstMove )
+    {
+        super(PieceType.BISHOP, piecePosition, pieceAlliance, isFirstMove);
     }
 
     @Override

@@ -10,9 +10,10 @@ import java.awt.image.BufferedImage;
 
 public abstract class Move
 {
-    final Board board;
-    final Piece movedPiece;
-    final int destinationCoordinate;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destinationCoordinate;
+    protected final boolean isFirstMove;
 
     private static final Move NULL_MOVE = new NullMove();
 
@@ -24,7 +25,18 @@ public abstract class Move
         this.board = board;
         this.movedPiece = movedPiece;
         this.destinationCoordinate = destinationCoordinate;
+        this.isFirstMove = movedPiece.isFirstMove();
     }
+
+    private Move(final Board board,
+                 final int destinationCoordinate)
+    {
+        this.board = board;
+        this.destinationCoordinate = destinationCoordinate;
+        this.movedPiece = null;
+        this.isFirstMove = false;
+    }
+
 
     @Override
     public int hashCode()
@@ -34,6 +46,7 @@ public abstract class Move
 
         result = prime * result + this.destinationCoordinate;
         result = prime * result + this.movedPiece.hashCode();
+        result = prime * result + this.movedPiece.getPiecePosition();
 
         return result;
     }
@@ -51,24 +64,10 @@ public abstract class Move
             return false;
         }
         final Move otherMove = (Move) other;
-        return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+        return getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+                getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
                 getMovedPiece().equals(otherMove.getMovedPiece());
     }
-    public boolean isAttack()
-    {
-        return false;
-    }
-
-    public boolean isCastlingMove()
-    {
-        return false;
-    }
-
-    public Piece getAttackedPiece()
-    {
-        return null;
-    }
-
     public int getCurrentCoordinate()
     {
         return this.getMovedPiece().getPiecePosition();
@@ -82,6 +81,21 @@ public abstract class Move
     public Piece getMovedPiece()
     {
         return this.movedPiece;
+    }
+
+    public boolean isAttack()
+    {
+        return false;
+    }
+
+    public boolean isCastlingMove()
+    {
+        return false;
+    }
+
+    public Piece getAttackedPiece()
+    {
+        return null;
     }
 
     public Board execute()
@@ -114,11 +128,24 @@ public abstract class Move
             super(board,movedPiece,destinationCoordinate);
         }
 
+        @Override
+        public boolean equals(final Object other)
+        {
+            return this == other || other instanceof MajorMove && super.equals(other);
+        }
+
+        @Override
+        public String toString()
+        {
+            return movedPiece.getPieceType().toString() + BoardUtils.getPositionAtCoordinate(this.destinationCoordinate);
+        }
+
     }
 
     public static  class AttackMove extends Move
     {
         final Piece attackedPiece;
+
         public AttackMove (final Board board,
                            final Piece movedPiece,
                            final int destinationCoordinate,
@@ -189,18 +216,6 @@ public abstract class Move
 
     }
 
-    public static class PawnEnPassantAttackMove extends AttackMove
-    {
-        public PawnEnPassantAttackMove (final Board board,
-                               final Piece movedPiece,
-                               final int destinationCoordinate,
-                               final Piece attackedPiece)
-        {
-            super(board,movedPiece,destinationCoordinate,attackedPiece);
-        }
-
-    }
-
     public static final class PawnJump extends Move
     {
         public PawnJump (final Board board, final Piece movedPiece, final int destinationCoordinate)
@@ -234,6 +249,17 @@ public abstract class Move
 
     }
 
+    public static class PawnEnPassantAttackMove extends PawnAttackMove
+    {
+        public PawnEnPassantAttackMove (final Board board,
+                                        final Piece movedPiece,
+                                        final int destinationCoordinate,
+                                        final Piece attackedPiece)
+        {
+            super(board,movedPiece,destinationCoordinate,attackedPiece);
+        }
+
+    }
 
     static abstract class CastleMove extends Move
     {
