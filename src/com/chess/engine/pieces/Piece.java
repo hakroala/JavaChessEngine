@@ -14,6 +14,8 @@ public abstract class Piece
     protected final boolean isFirstMove;
     private final int cachedHashCode;
 
+
+
     Piece(  final PieceType pieceType,
             final int piecePosition,
             final Alliance pieceAlliance,
@@ -60,94 +62,101 @@ public abstract class Piece
     {
         return this.piecePosition;
     }
-    public Alliance getPieceAlliance()
-    {
-       return this.pieceAlliance;
-    }
-
+    public Alliance getPieceAlliance() { return this.pieceAlliance; }
     public boolean isFirstMove() {
         return this.isFirstMove;
     }
     public PieceType getPieceType(){return this.pieceType;}
+    public int getPieceValue() {
+        return this.pieceType.getPieceValue();
+    }
     public abstract Collection<Move> calculateLegalMoves(final Board board);
     public abstract Piece movePiece(Move move);
+
+
     public enum PieceType
     {
-        BISHOP("B")
-                {
-                    @Override
-                    public boolean isKing() { return false; }
 
-                    @Override
-                    public boolean isRook() { return false; }
-                },
-        KING("K")
-                {
-                    @Override
-                    public boolean isKing()
-                    {
-                        return true;
-                    }
+        BISHOP(300, "B")
+        {
+            @Override
+            public boolean isKing() { return false; }
 
-                    @Override
-                    public boolean isRook() { return false; }
-                },
-        KNIGHT("N")
-                {
-                    @Override
-                    public boolean isKing()
-                    {
-                        return false;
-                    }
+            @Override
+            public boolean isRook() { return false; }
+        },
+        KING(10000,"K")
+        {
+            @Override
+            public boolean isKing()
+            {
+                return true;
+            }
 
-                    @Override
-                    public boolean isRook() { return false; }
-                },
-        PAWN("P")
-                {
-                    @Override
-                    public boolean isKing()
-                    {
-                        return false;
-                    }
+            @Override
+            public boolean isRook() { return false; }
+        },
+        KNIGHT(300,"N")
+        {
+            @Override
+            public boolean isKing()
+            {
+                return false;
+            }
 
-                    @Override
-                    public boolean isRook() { return false; }
-                },
-        QUEEN("Q")
-                {
-                    @Override
-                    public boolean isKing()
-                    {
-                        return false;
-                    }
+            @Override
+            public boolean isRook() { return false; }
+        },
+        PAWN(100,"P")
+        {
+            @Override
+            public boolean isKing()
+            {
+                return false;
+            }
 
-                    @Override
-                    public boolean isRook() { return false; }
-                },
-        ROOK("R")
-                {
-                    @Override
-                    public boolean isKing()
-                    {
-                        return false;
-                    }
+            @Override
+            public boolean isRook() { return false; }
+        },
+        QUEEN(900,"Q")
+        {
+            @Override
+            public boolean isKing()
+            {
+                return false;
+            }
 
-                    @Override
-                    public boolean isRook() { return true; }
-                };
+            @Override
+            public boolean isRook() { return false; }
+        },
+        ROOK(500, "R")
+        {
+            @Override
+            public boolean isKing()
+            {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() { return true; }
+        };
 
 
         private final String pieceName;
+        private final int pieceValue;
 
-        PieceType(final String pieceName) {
+        PieceType(final int pieceValue, final String pieceName)
+        {
             this.pieceName = pieceName;
+            this.pieceValue = pieceValue;
         }
 
         @Override
         public String toString() {
             return this.pieceName;
         }
+
+        public int getPieceValue() {return this.pieceValue; };
 
         public abstract boolean isKing();
 
