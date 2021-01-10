@@ -247,6 +247,12 @@ public abstract class Move
             return builder.build();
         }
 
+        @Override
+        public String toString()
+        {
+            return "foo";
+        }
+
     }
 
     public static class PawnEnPassantAttackMove extends PawnAttackMove
@@ -357,7 +363,7 @@ public abstract class Move
     {
         public NullMove ()
         {
-            super(null,null,-1);
+            super(null,-1);
         }
 
         @Override
