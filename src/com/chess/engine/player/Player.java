@@ -79,7 +79,7 @@ public abstract class Player {
     protected boolean hasEscapeMoves()
     {
         for (final Move move: this.legalMoves){
-            final MoveTransition transition = makeMoves(move);
+            final MoveTransition transition = makeMove(move);
             if(transition.getMoveStatus().isDone())
             {
                 return true;
@@ -98,7 +98,7 @@ public abstract class Player {
         return false;
     }
 
-    public MoveTransition makeMoves(final Move move)
+    public MoveTransition makeMove(final Move move)
     {
         if (!isMoveLegal(move))
         {
