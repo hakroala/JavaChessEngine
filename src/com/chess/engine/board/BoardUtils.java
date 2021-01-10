@@ -47,7 +47,7 @@ public class BoardUtils {
         {
             positionToCoordinate.put(ALGEBREIC_NOTATION[i],i );
         }
-        return ImmutableMap.copyOf(positionToCoordinate);
+        return ImmutableMap.copyOf(positionToCoordinate );
     };
 
     public static final int NUM_TILES = 64;
