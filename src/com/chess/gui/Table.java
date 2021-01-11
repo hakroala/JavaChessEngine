@@ -271,7 +271,7 @@ public class Table
                      else {
                          destinationTile = chessBoard.getTile(tileId);
                          final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate()) ;
-                         final MoveTransition transition = chessBoard.currentPlayer().makeMoves(move);
+                         final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
                          if (transition.getMoveStatus().isDone())
                          {
                              // chessBoard = chessBoard.currentPlayer().makeMoves(move)
@@ -290,7 +290,7 @@ public class Table
                         else {
                             destinationTile = chessBoard.getTile(tileId);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate());
-                            final MoveTransition transition = chessBoard.currentPlayer().makeMoves(move);
+                            final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone())
                             {
                                 chessBoard = transition.getTransitionBoard();
