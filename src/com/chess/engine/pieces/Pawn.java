@@ -44,8 +44,8 @@ public final class Pawn extends Piece
             boolean isFirstMove = this.isFirstMove();
             boolean isBlack = this.getPieceAlliance().isBlack();
             boolean isWhite = this.getPieceAlliance().isWhite();
-            boolean isSecondRank = BoardUtils.SECOND_ROW[this.piecePosition];
-            boolean isSeventhRank = BoardUtils.SEVENTH_ROW[this.piecePosition];
+            boolean isSecondRow = BoardUtils.SECOND_ROW[this.piecePosition];
+            boolean isSeventhRow = BoardUtils.SEVENTH_ROW[this.piecePosition];
             boolean isFirstColumn = BoardUtils.FIRST_COLUMN[this.piecePosition];
             boolean isEighthColumn = BoardUtils.EIGHT_COLUMN[this.piecePosition];
             boolean isPromotionMove = this.pieceAlliance.isPawnPromotionSquare(candidateDestinationCoordinate);
@@ -56,11 +56,11 @@ public final class Pawn extends Piece
             boolean isOneTileJump = currentCandidateOffset == 8 && !destinationOccupied;
 
             // A pawn can only jump 2 tiles (offset by 16) if this is the first time it moves
-            // and it is a white pawn on the second row or a black pawn on the seventh row
+            // and it is a white pawn on the seventh row or a black pawn on the second row
             // and the destination is not occupied
             boolean isTwoTileJump = currentCandidateOffset == 16 &&
-                    isFirstMove && destinationOccupied &&
-                    ((isSeventhRank && isBlack) || (isSecondRank && isWhite));
+                    isFirstMove && !destinationOccupied &&
+                    ((isSecondRow && isBlack) || (isSeventhRow && isWhite));
 
             // A pawn can only make a left capture (offset by 9) if
             // it's not a white pawn on the first column
