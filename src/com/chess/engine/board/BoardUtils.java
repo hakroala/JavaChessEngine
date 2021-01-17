@@ -12,22 +12,22 @@ public class BoardUtils {
     public static final boolean[] SEVENTH_COLUMN = initColumn(6);
     public static final boolean[] EIGHT_COLUMN = initColumn(7);
 
-    public static final boolean[] FIRST_RANK = initRow(0);
-    public static final boolean[] SECOND_RANK = initRow(8);
-    public static final boolean[] THIRD_RANK = initRow(16);
-    public static final boolean[] FOURTH_RANK = initRow(24);
-    public static final boolean[] FIFTH_RANK = initRow(32);
-    public static final boolean[] SIXTH_RANK= initRow(40);
-    public static final boolean[] SEVENTH_RANK= initRow(48);
-    public static final boolean[] EIGHTH_RANK= initRow(56);
+    public static final boolean[] FIRST_ROW = initRow(0);
+    public static final boolean[] SECOND_ROW = initRow(8);
+    public static final boolean[] THIRD_ROW = initRow(16);
+    public static final boolean[] FOURTH_ROW = initRow(24);
+    public static final boolean[] FIFTH_ROW = initRow(32);
+    public static final boolean[] SIXTH_ROW = initRow(40);
+    public static final boolean[] SEVENTH_ROW = initRow(48);
+    public static final boolean[] EIGHTH_ROW = initRow(56);
 
 
-     public static final String[] ALGEBREIC_NOTATION = initializeAlgebreicNotation();
+     public static final String[] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
 
      public static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordinateMap();
 
 
-    private static String[] initializeAlgebreicNotation()
+    private static String[] initializeAlgebraicNotation()
     {
         return new String[]{
                 "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8",
@@ -46,7 +46,7 @@ public class BoardUtils {
         final Map<String, Integer> positionToCoordinate = new HashMap<>();
         for (int i  = 0; i < NUM_TILES; i++ )
         {
-            positionToCoordinate.put(ALGEBREIC_NOTATION[i],i );
+            positionToCoordinate.put(ALGEBRAIC_NOTATION[i],i );
         }
         return ImmutableMap.copyOf(positionToCoordinate );
     };
@@ -92,7 +92,7 @@ public class BoardUtils {
 
     public static String getPositionAtCoordinate (final int coordinate)
     {
-        return ALGEBREIC_NOTATION[coordinate];
+        return ALGEBRAIC_NOTATION[coordinate];
     }
 
 
