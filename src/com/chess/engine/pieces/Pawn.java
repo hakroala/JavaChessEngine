@@ -12,6 +12,10 @@ import java.util.List;
 
 public final class Pawn extends Piece
 {
+    // Offset 8: Move to the tile right in front of the pawn
+    // Offset 16: Move to the tile 2 rows in front of the pawn
+    // Offset 7: Move to the tile one row in front and to the right of the pawn
+    // Offset 9: Move to the tile one row in front and to the left of the pawn
     private final static int [] CANDIDATE_MOVE_COORDINATES = {8, 16, 7, 9};
 
     public Pawn(final Alliance pieceAlliance, final int piecePosition)
@@ -53,12 +57,12 @@ public final class Pawn extends Piece
                     this.pieceAlliance != board.getEnPassantPawn().getPieceAlliance() &&
                     (board.getEnPassantPawn().getPiecePosition() == (this.piecePosition + (this.pieceAlliance.getOppositeDirection())));
 
-            boolean isOneTileJump = currentCandidateOffset == 8 && !destinationOccupied;
+            boolean isOneRowJump = currentCandidateOffset == 8 && !destinationOccupied;
 
-            // A pawn can only jump 2 tiles (offset by 16) if this is the first time it moves
+            // A pawn can only jump 2 rows (offset by 16) if this is the first time it moves
             // and it is a white pawn on the seventh row or a black pawn on the second row
             // and the destination is not occupied
-            boolean isTwoTileJump = currentCandidateOffset == 16 &&
+            boolean isTwoRowJump = currentCandidateOffset == 16 &&
                     isFirstMove && !destinationOccupied &&
                     ((isSecondRow && isBlack) || (isSeventhRow && isWhite));
 
@@ -76,7 +80,7 @@ public final class Pawn extends Piece
                     !(isEighthColumn && isWhite) &&
                     !(isFirstColumn && isBlack);
 
-            if (isOneTileJump)
+            if (isOneRowJump)
             {
                 if (isPromotionMove)
                 {
@@ -87,7 +91,7 @@ public final class Pawn extends Piece
                     legalMoves.add(new Move.PawnJump(board,this,candidateDestinationCoordinate));
                 }
             }
-            else if (isTwoTileJump)
+            else if (isTwoRowJump)
             {
                 final int coordinateBehindDestination = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 boolean tileBehindDestinationOccupied = board.getTile(coordinateBehindDestination).isTileOccupied();
