@@ -353,11 +353,9 @@ public abstract class Move {
         }
 
         @Override
-        public String toString()
-        {
-            return "foo";
+        public String toString() {
+            return BoardUtils.getPositionAtCoordinate(this.destinationCoordinate);
         }
-
     }
 
     public static class PawnEnPassantAttackMove extends PawnAttackMove
