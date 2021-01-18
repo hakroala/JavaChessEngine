@@ -332,7 +332,7 @@ public abstract class Move {
         public Board execute()
         {
             final Builder builder = new Builder();
-            for(final  Piece piece : this.board.currentPlayer().getActivePieces())
+            for (final  Piece piece : this.board.currentPlayer().getActivePieces())
             {
                 if(!this.movedPiece.equals(piece))
                 {
@@ -340,7 +340,7 @@ public abstract class Move {
                 }
             }
 
-            for(final Piece piece: this.board.currentPlayer().getOpponent().getActivePieces())
+            for (final Piece piece: this.board.currentPlayer().getOpponent().getActivePieces())
             {
                 builder.setPiece(piece);
             }

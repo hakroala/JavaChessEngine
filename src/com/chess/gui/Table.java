@@ -418,25 +418,28 @@ public class Table extends Observable
                         sourceTile = null;
                         destinationTile = null;
                         humanMovedPiece = null;
-                     if(sourceTile == null)
-                     {
-                         sourceTile = chessBoard.getTile(tileId);
-                         humanMovedPiece = sourceTile.getPiece();
-                         if (humanMovedPiece == null)
-                         {
-                             sourceTile = null;
-                         }
-                     }
-                     else {
-                         destinationTile = chessBoard.getTile(tileId);
-                         final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate()) ;
-                         final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
-                         if (transition.getMoveStatus().isDone())
-                         {
-                             // chessBoard = chessBoard.currentPlayer().makeMoves(move)
-                         }
-                     }
-                    } else if (isLeftMouseButton(e)) {
+                        if(sourceTile == null)
+                        {
+                            sourceTile = chessBoard.getTile(tileId);
+                            humanMovedPiece = sourceTile.getPiece();
+                            if (humanMovedPiece == null)
+                            {
+                                sourceTile = null;
+                            }
+                        }
+                        else
+                        {
+                            destinationTile = chessBoard.getTile(tileId);
+                            final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate()) ;
+                            final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
+                            if (transition.getMoveStatus().isDone())
+                            {
+                                // chessBoard = chessBoard.currentPlayer().makeMoves(move)
+                            }
+                        }
+                    }
+                    else if (isLeftMouseButton(e))
+                    {
                         if (sourceTile == null)
                         {
                             sourceTile = chessBoard.getTile(tileId);
