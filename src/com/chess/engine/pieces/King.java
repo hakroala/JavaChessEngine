@@ -56,7 +56,8 @@ public class King extends Piece
         final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATES)
-            { final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
+        {
+            final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
             if(isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) || isEighthColumnExclusion(this.piecePosition, currentCandidateOffset))
             {
                 continue;
@@ -64,22 +65,22 @@ public class King extends Piece
 
             if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
-                    final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
-                    if (!candidateDestinationTile.isTileOccupied())
-                    {
-                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
-                    }
-                    else {
-                        final Piece pieceAtDestination = candidateDestinationTile.getPiece();
-                        final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
+                final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
+                if (!candidateDestinationTile.isTileOccupied())
+                {
+                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                }
+                else {
+                    final Piece pieceAtDestination = candidateDestinationTile.getPiece();
+                    final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
-                        if (this.pieceAlliance != pieceAlliance)
-                        {
-                            legalMoves.add(new Move.MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
-                        }
+                    if (this.pieceAlliance != pieceAlliance)
+                    {
+                        legalMoves.add(new Move.MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                     }
                 }
             }
+        }
         return ImmutableList.copyOf(legalMoves);
     }
 

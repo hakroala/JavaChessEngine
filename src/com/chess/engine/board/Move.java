@@ -113,7 +113,6 @@ public abstract class Move {
         builder.setPiece(this.pieceToBeMoved.movePiece(this));
         builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
         return builder.build();
-
     }
 
     public static final class MajorMove extends Move
@@ -174,7 +173,25 @@ public abstract class Move {
         @Override
         public Board execute()
         {
-            return null;
+            final Builder builder = new Builder();
+
+            for (final Piece piece: this.board.currentPlayer().getActivePieces())
+            {
+                if (!this.pieceToBeMoved.equals(piece) &&
+                    !this.getAttackedPiece().equals(piece))
+                {
+                    builder.setPiece(piece);
+                }
+            }
+
+            for (final Piece piece : this.board.currentPlayer().getOpponent().getActivePieces())
+            {
+                builder.setPiece(piece);
+            }
+
+            builder.setPiece(this.pieceToBeMoved.movePiece(this));
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
         }
 
         @Override
