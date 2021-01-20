@@ -45,46 +45,78 @@ public class BlackPlayer extends Player
         final List<Move> kingCastles = new ArrayList<>();
         if(this.playerKing.isFirstMove() && !this.isInCheck())
         {
-            // white king side castle
-            if(!this.board.getTile(5).isTileOccupied() && !this.board.getTile(6).isTileOccupied())
+            int kingSideRookPosition = 7;
+            int kingSideCastleKingDest = kingSideRookPosition - 1;
+            int kingSideCastleRookDest = kingSideCastleKingDest - 1;
+            // If none of the tiles between the king-side rook and the king is occupied
+            if (!this.board.getTile(kingSideCastleKingDest).isTileOccupied() &&
+                !this.board.getTile(kingSideCastleRookDest).isTileOccupied())
             {
-                final Tile rookTile = this.board.getTile(7);
-                if ((rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()))
+                final Tile rookTile = this.board.getTile(kingSideRookPosition);
+                final Piece rookTilePiece = rookTile.getPiece();
+                // If the piece on the rook tile is really a rook
+                // and this rook has not been moved
+                if (rookTile.isTileOccupied() &&
+                    rookTilePiece.getPieceType().isRook() &&
+                    rookTilePiece.isFirstMove())
                 {
-                    if (Player.calculateAttacksOnTile(5,opponentsLegals).isEmpty()
-                            && Player.calculateAttacksOnTile(6, opponentsLegals).isEmpty()
-                            && rookTile.getPiece().getPieceType().isRook())
+                    // If the king's destination is not under attack
+                    // and the rook destination is not under attack
+                    if (Player.calculateAttacksOnTile(kingSideCastleKingDest,opponentsLegals).isEmpty() &&
+                        Player.calculateAttacksOnTile(kingSideCastleRookDest, opponentsLegals).isEmpty())
                     {
-                        kingCastles.add(new Move.KingSideCastleMove(this.board,
-                                                                    this.playerKing,
-                                                                    6,
-                                                                    (Rook)rookTile.getPiece(),
-                                                                    rookTile.getTileCoordinate(),
-                                                                    5));
+                        kingCastles.add(
+                            new Move.KingSideCastleMove(
+                                this.board,
+                                this.playerKing,
+                                kingSideCastleKingDest,
+                                (Rook)rookTilePiece,
+                                kingSideRookPosition,
+                                kingSideCastleRookDest
+                            )
+                        );
                     }
                 }
             }
 
-        }
-
-        if (!this.board.getTile(1).isTileOccupied()
-                && !this.board.getTile(2).isTileOccupied()
-                && !this.board.getTile(3).isTileOccupied())
-        {
-            final Tile rookTile = this.board.getTile(0);
-            if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove())
+            int queenSideRookPosition = 0;
+            int queenSideCastleKnightPosition = queenSideRookPosition + 1;
+            int queenSideCastleKingDest = queenSideCastleKnightPosition + 1;
+            int queenSideCastleRookDest = queenSideCastleKingDest + 1;
+            // If none of the tiles between the queen-side rook and the king is occupied
+            if (!this.board.getTile(queenSideCastleKnightPosition).isTileOccupied() &&
+                !this.board.getTile(queenSideCastleKingDest).isTileOccupied() &&
+                !this.board.getTile(queenSideCastleRookDest).isTileOccupied())
             {
-                if (Player.calculateAttacksOnTile(58,opponentsLegals).isEmpty()
-                    && Player.calculateAttacksOnTile(59, opponentsLegals).isEmpty()
-                    && rookTile.getPiece().getPieceType().isRook())
-                { kingCastles.add(new Move.QueenSideCastleMove(this.board,
-                                                            this.playerKing,
-                                                            2,
-                                                            (Rook)rookTile.getPiece(),
-                                                            rookTile.getTileCoordinate(),
-                                                            3)); }
+                final Tile rookTile = this.board.getTile(queenSideRookPosition);
+                final Piece rookTilePiece = rookTile.getPiece();
+                // If the piece on the rook tile is really a rook
+                // and this rook has not been moved
+                if (rookTile.isTileOccupied() &&
+                    rookTilePiece.getPieceType().isRook() &&
+                    rookTilePiece.isFirstMove())
+                {
+                    // If the king's destination is not under attack
+                    // and the rook destination is not under attack
+                    if (Player.calculateAttacksOnTile(queenSideCastleKingDest,opponentsLegals).isEmpty() &&
+                        Player.calculateAttacksOnTile(queenSideCastleRookDest, opponentsLegals).isEmpty())
+                    {
+                        kingCastles.add(
+                            new Move.QueenSideCastleMove(
+                                this.board,
+                                this.playerKing,
+                                queenSideCastleKingDest,
+                                (Rook)rookTilePiece,
+                                queenSideRookPosition,
+                                queenSideCastleRookDest
+                            )
+                        );
+                    }
+                }
             }
         }
+
+
         return ImmutableList.copyOf(kingCastles);
     }
 }

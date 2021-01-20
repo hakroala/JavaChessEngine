@@ -68,11 +68,11 @@ public class FenUtilities {
         {
             builder.append("Q");
         }
-        if (board.whitePlayer().isKingSideCastleCapable())
+        if (board.blackPlayer().isKingSideCastleCapable())
         {
             builder.append("k");
         }
-        if (board.whitePlayer().isQueenSideCastleCapable())
+        if (board.blackPlayer().isQueenSideCastleCapable())
         {
             builder.append("q");
         }
