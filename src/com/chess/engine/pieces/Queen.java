@@ -30,7 +30,7 @@ public class Queen extends Piece {
 
     @Override
     public Queen movePiece(Move move) {
-        return new Queen(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new Queen(move.getPieceToBeMoved().getPieceAlliance(), move.getDestinationCoordinate());
     }
     @Override
     public String toString()

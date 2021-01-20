@@ -241,7 +241,6 @@ public class Table extends Observable
     {
         setChanged();
         notifyObservers();
-
     }
 
     private static class AIThinkTank extends SwingWorker<Move, String>
@@ -400,8 +399,7 @@ public class Table extends Observable
     {
         private final int tileId;
 
-        TilePanel(final  BoardPanel boardPanel,
-                  final int tileId)
+        TilePanel(final BoardPanel boardPanel, final int tileId)
         {
             super(new GridLayout());
             this.tileId = tileId;
@@ -409,11 +407,67 @@ public class Table extends Observable
             assignTileColor();
             assignTilePieceIcon(chessBoard);
 
-            addMouseListener(new MouseListener() {
+            addMouseListener(new MouseListener()
+            {
                 @Override
                 public void mouseClicked(final MouseEvent e)
                 {
-                    if(isRightMouseButton(e))
+                    // If the user selects the current tile (left click)
+                    if (isLeftMouseButton(e))
+                    {
+                        // If there's no pre-existing source tile
+                        // and the selected tile is occupied by a piece
+                        if (sourceTile == null && chessBoard.getTile(tileId).getPiece() != null)
+                        {
+                            // Make the current tile the new source tile
+                            sourceTile = chessBoard.getTile(tileId);
+
+                            // Mark the piece on the current tile as the piece about to be moved by human
+                            humanMovedPiece = sourceTile.getPiece();
+                        }
+                        // If there's a pre-existing source tile
+                        // then the current tile will be the destination tile
+                        else
+                        {
+                            // Make the current tile the destination tile
+                            destinationTile = chessBoard.getTile(tileId);
+
+                            // Create a move from the source tile to the current tile
+                            final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
+
+                            // Create a move transition to perform the move
+                            final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
+
+                            if (transition.getMoveStatus().isDone())
+                            {
+                                // Update the board and the move log once the move transition completes
+                                chessBoard = transition.getTransitionBoard();
+                                moveLog.addMove(move);
+                            }
+
+                            // Reset the source tile, destination tile, and the human moved piece
+                            // to prepare for the next move
+                            sourceTile = null;
+                            destinationTile = null;
+                            humanMovedPiece = null;
+                        }
+                        SwingUtilities.invokeLater(() -> {
+
+                            // Re-draw the game history with updated board and move log
+                            gameHistoryPanel.redo(chessBoard, moveLog);
+                            takenPiecesPanel.redo(moveLog);
+
+                            // If the current player is an AI player
+                            if (gameSetup.isAIPlayer(chessBoard.currentPlayer()))
+                            {
+                                Table.get().moveMadeUpdate(PlayerType.HUMAN);
+                            }
+
+                            // Re-draw the updated game board
+                            boardPanel.drawBoard(chessBoard);
+                        });
+                    }
+                    else if(isRightMouseButton(e))
                     {
                         sourceTile = null;
                         destinationTile = null;
@@ -437,41 +491,6 @@ public class Table extends Observable
                                 // chessBoard = chessBoard.currentPlayer().makeMoves(move)
                             }
                         }
-                    }
-                    else if (isLeftMouseButton(e))
-                    {
-                        if (sourceTile == null)
-                        {
-                            sourceTile = chessBoard.getTile(tileId);
-                            humanMovedPiece = sourceTile.getPiece();
-                            if(humanMovedPiece == null)
-                            {
-                                sourceTile = null;
-                            }
-                        } else {
-                            destinationTile = chessBoard.getTile(tileId);
-                            final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate());
-                            final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
-                            if (transition.getMoveStatus().isDone())
-                            {
-                                chessBoard = transition.getTransitionBoard();
-                                moveLog.addMove(move);
-                            }
-                            sourceTile = null;
-                            destinationTile = null;
-                            humanMovedPiece = null;
-                        }
-                        SwingUtilities.invokeLater(() -> {
-                                gameHistoryPanel.redo(chessBoard,moveLog);
-                                takenPiecesPanel.redo(moveLog);
-
-                                if (gameSetup.isAIPlayer(chessBoard.currentPlayer()))
-                                {
-                                    Table.get().moveMadeUpdate(PlayerType.HUMAN);
-                                }
-                                boardPanel.drawBoard(chessBoard);
-
-                        });
                     }
                 }
 

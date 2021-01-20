@@ -36,10 +36,10 @@ public class GameHistoryPanel extends JPanel
         for (final Move move: moveHistory.getMoves())
         {
             final String moveText = move.toString();
-            if(move.getMovedPiece().getPieceAlliance().isWhite())
+            if(move.getPieceToBeMoved().getPieceAlliance().isWhite())
             {
                 this.model.setValueAt(moveText,currentRow, 0);
-            }else if (move.getMovedPiece().getPieceAlliance().isBlack())
+            }else if (move.getPieceToBeMoved().getPieceAlliance().isBlack())
             {
                 this.model.setValueAt(moveText,currentRow,1);
                 currentRow++;
@@ -50,10 +50,10 @@ public class GameHistoryPanel extends JPanel
         {
             final Move lastMove = moveHistory.getMoves().get(moveHistory.size() - 1);
             final String moveText = lastMove.toString();
-            if (lastMove.getMovedPiece().getPieceAlliance().isWhite())
+            if (lastMove.getPieceToBeMoved().getPieceAlliance().isWhite())
             {
                 this.model.setValueAt(moveText + calculateCheckandCheckMateHash(board), currentRow, 0  );
-            } else if ( lastMove.getMovedPiece().getPieceAlliance().isBlack())
+            } else if ( lastMove.getPieceToBeMoved().getPieceAlliance().isBlack())
             {
                 this.model.setValueAt(moveText + calculateCheckandCheckMateHash(board),currentRow, 0);
             }
