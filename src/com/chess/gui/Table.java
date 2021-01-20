@@ -417,13 +417,22 @@ public class Table extends Observable
                     {
                         // If there's no pre-existing source tile
                         // and the selected tile is occupied by a piece
-                        if (sourceTile == null && chessBoard.getTile(tileId).getPiece() != null)
+                        // and this piece belongs to the current player
+                        if (sourceTile == null)
                         {
-                            // Make the current tile the new source tile
-                            sourceTile = chessBoard.getTile(tileId);
+                            Tile selectedTile = chessBoard.getTile(tileId);
+                            Piece selectedPiece = selectedTile.getPiece();
 
-                            // Mark the piece on the current tile as the piece about to be moved by human
-                            humanMovedPiece = sourceTile.getPiece();
+                            // If the selected tile is occupied by a piece
+                            // and this piece belongs to the current player
+                            if (selectedPiece != null &&
+                                selectedPiece.getPieceAlliance() == chessBoard.currentPlayer().getAlliance())
+                            {
+                                // Make the selected tile the new source tile
+                                sourceTile = selectedTile;
+                                // Mark the selected piece as the piece about to be moved by human
+                                humanMovedPiece = selectedPiece;
+                            }
                         }
                         // If there's a pre-existing source tile
                         // then the current tile will be the destination tile
