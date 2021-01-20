@@ -13,7 +13,16 @@ import java.util.List;
 
 public class King extends Piece
 {
-    private final static int[] CANDIDATE_MOVE_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
+    private final static int[] CANDIDATE_MOVE_COORDINATES = {
+        Move.UP_LEFT,
+        Move.UP_RIGHT,
+        Move.UP_STRAIGHT,
+        Move.LEFT,
+        Move.RIGHT,
+        Move.DOWN_LEFT,
+        Move.DOWN_RIGHT,
+        Move.DOWN_STRAIGHT
+    };
 
     private final boolean isCastled;
     private final boolean kingSideCastleCapable;
@@ -58,7 +67,8 @@ public class King extends Piece
         for (final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATES)
         {
             final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
-            if(isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) || isEighthColumnExclusion(this.piecePosition, currentCandidateOffset))
+            if (Move.isFirstColumnExclusion(this.piecePosition, currentCandidateOffset) ||
+                Move.isEighthColumnExclusion(this.piecePosition, currentCandidateOffset))
             {
                 continue;
             }
@@ -94,14 +104,5 @@ public class King extends Piece
     public String toString()
     {
         return PieceType.KING.toString();
-    }
-    private static boolean isFirstColumnExclusion (final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == -1 || candidateOffset == 7 || candidateOffset == 15);
-    }
-
-    private static boolean isEighthColumnExclusion (final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.EIGHT_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 1 || candidateOffset == 9);
     }
 }

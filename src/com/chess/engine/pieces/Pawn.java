@@ -12,11 +12,29 @@ import java.util.List;
 
 public final class Pawn extends Piece
 {
-    // Offset 8: Move to the tile right in front of the pawn
-    // Offset 16: Move to the tile 2 rows in front of the pawn
-    // Offset 7: Move to the tile one row in front and to the right of the pawn
-    // Offset 9: Move to the tile one row in front and to the left of the pawn
-    private final static int [] CANDIDATE_MOVE_COORDINATES = {8, 16, 7, 9};
+    private int[] candidateMoveCoordinates()
+    {
+        if (this.pieceAlliance == Alliance.BLACK)
+        {
+            // Black pawns can only move down
+            return new int[] {
+                Move.DOWN_STRAIGHT,
+                Move.DOWN_STRAIGHT_TWO,
+                Move.DOWN_RIGHT,
+                Move.DOWN_LEFT
+            };
+        }
+        else
+        {
+            // White pawns can only move up
+            return new int[] {
+                Move.UP_STRAIGHT,
+                Move.UP_STRAIGHT_TWO,
+                Move.UP_RIGHT,
+                Move.UP_LEFT
+            };
+        }
+    }
 
     public Pawn(final Alliance pieceAlliance, final int piecePosition)
     {
@@ -34,9 +52,9 @@ public final class Pawn extends Piece
     public Collection<Move> calculateLegalMoves(final Board board)
     {
         final List<Move> legalMoves = new ArrayList<>();
-        for(final int currentCandidateOffset: CANDIDATE_MOVE_COORDINATES )
+        for(final int currentCandidateOffset: candidateMoveCoordinates())
         {
-            final int candidateDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * currentCandidateOffset);
+            final int candidateDestinationCoordinate = this.piecePosition + currentCandidateOffset;
             if (!BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
                 continue;
@@ -57,28 +75,22 @@ public final class Pawn extends Piece
                     this.pieceAlliance != board.getEnPassantPawn().getPieceAlliance() &&
                     (board.getEnPassantPawn().getPiecePosition() == (this.piecePosition + (this.pieceAlliance.getOppositeDirection())));
 
-            boolean isOneRowJump = currentCandidateOffset == 8 && !destinationOccupied;
+            boolean isOneRowJump = Move.isStraightOneRow(currentCandidateOffset) && !destinationOccupied;
 
-            // A pawn can only jump 2 rows (offset by 16) if this is the first time it moves
+            // A pawn can only jump 2 rows if this is the first time it moves
             // and it is a white pawn on the seventh row or a black pawn on the second row
             // and the destination is not occupied
-            boolean isTwoRowJump = currentCandidateOffset == 16 &&
+            boolean isTwoRowJump = Move.isStraightTwoRows(currentCandidateOffset) &&
                     isFirstMove && !destinationOccupied &&
                     ((isSecondRow && isBlack) || (isSeventhRow && isWhite));
 
-            // A pawn can only make a left capture (offset by 9) if
-            // it's not a white pawn on the first column
-            // and not a black pawn on the eighth column
-            boolean isLeftCapture = currentCandidateOffset == 9 &&
-                    !(isFirstColumn && isWhite) &&
-                    !(isEighthColumn && isBlack);
+            // A pawn can only make a left capture if it can move left,
+            // i.e. it's not on the first column
+            boolean isLeftCapture = Move.isMoveToLeft(currentCandidateOffset) && !isFirstColumn;
 
-            // A pawn can only make a right capture (offset by 7) if
-            // it's not a white pawn on the eighth column
-            // and not a black pawn on the first column
-            boolean isRightCapture = currentCandidateOffset == 7 &&
-                    !(isEighthColumn && isWhite) &&
-                    !(isFirstColumn && isBlack);
+            // A pawn can only make a right capture if it can move right,
+            // i.e. it's not on the eighth column
+            boolean isRightCapture = Move.isMoveToRight(currentCandidateOffset) && !isEighthColumn;
 
             if (isOneRowJump)
             {

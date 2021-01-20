@@ -87,9 +87,10 @@ public abstract class Player {
     }
     protected boolean hasEscapeMoves()
     {
-        for (final Move move: this.legalMoves){
+        for (final Move move: this.legalMoves)
+        {
             final MoveTransition transition = makeMove(move);
-            if(transition.getMoveStatus().isDone())
+            if (transition.getMoveStatus().isDone())
             {
                 return true;
             }

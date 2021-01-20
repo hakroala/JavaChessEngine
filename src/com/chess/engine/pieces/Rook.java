@@ -14,7 +14,12 @@ import java.util.List;
 
 public class Rook extends Piece
 {
-    private final static int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {-8,-1,1,8};
+    private final static int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {
+        Move.UP_STRAIGHT,
+        Move.DOWN_STRAIGHT,
+        Move.LEFT,
+        Move.RIGHT
+    };
 
     public Rook( final Alliance pieceAlliance,final int piecePosition)
     {
@@ -47,8 +52,8 @@ public class Rook extends Piece
             int candidateDestinationCoordinate = this.piecePosition;
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
-                if (isFirstColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset)
-                        || isEightColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset))
+                if (Move.isFirstColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset) ||
+                    Move.isEighthColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset))
                 {
                     break;
                 }
@@ -77,15 +82,5 @@ public class Rook extends Piece
         }
 
         return ImmutableList.copyOf(legalMoves);
-    }
-
-    private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -1  );
-    }
-
-    private static boolean isEightColumnExclusion(final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.EIGHT_COLUMN[currentPosition] && (candidateOffset == 1);
     }
 }

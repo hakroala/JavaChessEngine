@@ -14,8 +14,6 @@ public abstract class Piece
     protected final boolean isFirstMove;
     private final int cachedHashCode;
 
-
-
     Piece(  final PieceType pieceType,
             final int piecePosition,
             final Alliance pieceAlliance,

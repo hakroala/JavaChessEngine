@@ -13,6 +13,61 @@ public abstract class Move {
 
     private static final Move NULL_MOVE = new NullMove();
 
+    // Common move offsets
+    // -16: Up 2 rows straight (only for pawns)
+    public static final int UP_STRAIGHT_TWO = -16;
+    // -9: Up one row diagonally left
+    public static final int UP_LEFT = -9;
+    // -8: Up one row straight
+    public static final int UP_STRAIGHT = -8;
+    // -7: Up one row diagonally right
+    public static final int UP_RIGHT = -7;
+    // -1: Same row one tile left
+    public static final int LEFT = -1;
+    // 1: Same row one tile right
+    public static final int RIGHT = 1;
+    // 7: Down one row diagonally left
+    public static final int DOWN_LEFT = 7;
+    // 8: Down one row straight
+    public static final int DOWN_STRAIGHT = 8;
+    // 9: Down one row diagonally right
+    public static final int DOWN_RIGHT = 9;
+    // 16: Down 2 rows straight (only for pawns)
+    public static final int DOWN_STRAIGHT_TWO = 16;
+
+    public static boolean isMoveToRight(int offset)
+    {
+        return offset == UP_RIGHT ||
+            offset == DOWN_RIGHT ||
+            offset == RIGHT;
+    }
+
+    public static boolean isMoveToLeft(int offset)
+    {
+        return offset == UP_LEFT ||
+                offset == DOWN_LEFT ||
+                offset == LEFT;
+    }
+
+    public static boolean isStraightOneRow(int offset)
+    {
+        return offset == UP_STRAIGHT || offset == DOWN_STRAIGHT;
+    }
+
+    public static boolean isStraightTwoRows(int offset)
+    {
+        return offset == UP_STRAIGHT_TWO || offset == DOWN_STRAIGHT_TWO;
+    }
+
+    public static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset)
+    {
+        return BoardUtils.FIRST_COLUMN[currentPosition] && isMoveToLeft(candidateOffset);
+    }
+
+    public static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset)
+    {
+        return BoardUtils.EIGHT_COLUMN[currentPosition] && isMoveToRight(candidateOffset);
+    }
 
     private Move(final Board board,
                  final Piece pieceToBeMoved,

@@ -13,7 +13,12 @@ import java.util.List;
 
 public class Bishop extends Piece
 {
-    private final static int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9,-7,7,9};
+    private final static int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {
+        Move.UP_LEFT,
+        Move.UP_RIGHT,
+        Move.DOWN_LEFT,
+        Move.DOWN_RIGHT
+    };
     public Bishop(final Alliance pieceAlliance, final int piecePosition)
     {
         super(PieceType.BISHOP,piecePosition, pieceAlliance, true);
@@ -35,8 +40,8 @@ public class Bishop extends Piece
             int candidateDestinationCoordinate = this.piecePosition;
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate))
             {
-                if (isFirstColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset)
-                || isEightColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset))
+                if (Move.isFirstColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset) ||
+                    Move.isEighthColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset))
                 {
                     break;
                 }
@@ -76,14 +81,5 @@ public class Bishop extends Piece
     public String toString()
     {
         return PieceType.BISHOP.toString();
-    }
-    private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7 );
-    }
-
-    private static boolean isEightColumnExclusion(final int currentPosition, final int candidateOffset)
-    {
-        return BoardUtils.EIGHT_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
     }
 }
