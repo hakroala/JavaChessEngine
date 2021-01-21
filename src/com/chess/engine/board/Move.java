@@ -232,8 +232,7 @@ public abstract class Move {
 
             for (final Piece piece: this.board.currentPlayer().getActivePieces())
             {
-                if (!this.pieceToBeMoved.equals(piece) &&
-                    !this.getAttackedPiece().equals(piece))
+                if (!this.pieceToBeMoved.equals(piece))
                 {
                     builder.setPiece(piece);
                 }
@@ -241,7 +240,10 @@ public abstract class Move {
 
             for (final Piece piece : this.board.currentPlayer().getOpponent().getActivePieces())
             {
-                builder.setPiece(piece);
+                if (!this.getAttackedPiece().equals(piece))
+                {
+                    builder.setPiece(piece);
+                }
             }
 
             builder.setPiece(this.pieceToBeMoved.movePiece(this));
